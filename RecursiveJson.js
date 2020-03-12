@@ -1,4 +1,5 @@
 var user =  {
+   user_1 : {
    name : "Shubham Jindal",
    address : {
       parmanentAddress : {
@@ -19,6 +20,29 @@ var user =  {
       }
    },
    interset : ["music" ,"fun" , "code"]
+   },
+   user_2 : {
+       name : "Dhruv Jain",
+   address : {
+      parmanentAddress : {
+          city : "Kota",
+          state : "Rajasthan",
+          latandLang : {
+              latitide : "1234567891",
+              langitude : "9876543211"
+          }
+      },
+      officeAddress : {
+        city : "Bengaluru",
+        state : "Karnataka ",
+        latandLang : {
+            latitide : "2333333333",
+            langitude : "111111111"
+        }
+      }
+   },
+   interset : ["music" ,"fun" , "coding" ,"I dont Know"]
+   }
 }
 
 var comresseduser = {};
