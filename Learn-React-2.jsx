@@ -3,9 +3,11 @@ class App extends React.Component{
     super(props);
     this.getDataFromAppChildOne = this.getDataFromAppChildOne.bind(this)
     this.getDataFromAppChildTwo = this.getDataFromAppChildTwo.bind(this)
+    this.getDataFromAppChildThree = this.getDataFromAppChildThree.bind(this)
     this.state = {
       input1 : '',
-      input2 : ''
+      input2 : '',
+      input3 : ''
     }
   }
   
@@ -26,14 +28,27 @@ class App extends React.Component{
     })
   }
   
-
+getDataFromAppChildThree(){
+  const dataFromAppChildThree = document.getElementById('inputValueThree').value;
+  this.setState(()=>{
+      return {
+        input3 : dataFromAppChildThree
+      }
+    })
+  
+}
   
   render(){
      return(
        <div>
          <AppChildOne getDataFromAppChildOne = {this.getDataFromAppChildOne} disPlayDataofAppChildOne = {this.state.input1}/>
          <AppChildTwo getDataFromAppChildTwo = {this.getDataFromAppChildTwo} disPlayDataofAppChildTwo = {this.state.input2}/>
-         <AppChildThree />
+         <AppChildThree 
+           getDataFromAppChildThree = {this.getDataFromAppChildThree}
+           disPlayDataofAppChildOne = {this.state.input1}
+           disPlayDataofAppChildTwo = {this.state.input2} 
+           disPlayDataofAppChildThree = {this.state.input3}
+          />
        </div>
      )
   }
@@ -76,8 +91,11 @@ class AppChildThree extends React.Component{
   constructor(props){
     super(props)
     this.handleAppChildThird = this.handleAppChildThird.bind(this)
+    this.handleCheck = this.handleCheck.bind(this)
     this.state = {
-      check : false
+      first : false,
+      second : false,
+      third : false
     }
   }
   handleAppChildThird(){
@@ -85,30 +103,52 @@ class AppChildThree extends React.Component{
     if(dataFromAppChildOne=='first'){
       this.setState(()=>{
         return {
-          check :false
+          first : true,
+          second :false,
+          third : false
         }
       })
-    }
-    else if(dataFromAppChildOne=='second'){}
-    else{
-      this.setState(()=>{
+    }else if(dataFromAppChildOne=='second'){
+         this.setState(()=>{
         return {
-          check :true
+          first : false,
+          second :true,
+          third : false
+        }
+      })        
+    }
+    else{
+     this.setState(()=>{
+        return {
+          first : false,
+          second :false,
+          third : true
         }
       })
     }
   }
+  
   handleCheck(){
-     if(this.state.check){
-       return "hi amamamammma"
+     if(this.state.first){
+       return this.props.disPlayDataofAppChildOne
+     }else if(this.state.second){
+       return this.props.disPlayDataofAppChildTwo
+     }else if(this.state.third){
+       return (
+         <div>
+           <input id= "inputValueThree" type="text"></input>
+           <button onClick = {this.props.getDataFromAppChildThree}>AppChildThree</button>
+           {this.props.disPlayDataofAppChildThree}
+         </div>
+       )
      }
   }
   render(){
     return(
       <div>
         <select id="mySelect">
-        <option value="first">Get The App Child Value</option>
-        <option value="second">Get The App Child Value</option>
+        <option value="first">Get The First App Child Value</option>
+        <option value="second">Get The Second App Child Value</option>
         <option value="own">I want my Own Value</option>
        </select>
        <button onClick= {this.handleAppChildThird}>Go</button>
