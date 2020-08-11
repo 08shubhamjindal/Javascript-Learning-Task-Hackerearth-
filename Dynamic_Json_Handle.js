@@ -12,44 +12,45 @@ supportedKey = (key) =>{
 
 
     var str = '';
-    handleanotherArray = (data1, id1)=>{
-       console.log(id1)
-       var qqqq = document.getElementById(id1)
-       if(qqqq==null){ 
-         
-        
-        
-        var zz = id1;
-        var a = id1.indexOf("*");
-            a = id1.substring(0, a);
-        var table =  document.getElementById(a);
-        var zz = id1;
-        var a = id1.indexOf("*");
-            a = id1.substring(0, a);
-        var table =  document.getElementById(a);
-        var xx = '';
-        xx = xx +  "<table id="+zz+" border = '1'>" + '<tr>';
+    handlingRecursiveTable = (arrayOfData, newId)=>{
 
-        for(let key in data1){
-            for(let keyAgain in data1[key]){
-                     xx= xx + '<th>' + supportedKey(keyAgain) + '</th>';
+
+       var qqqq = document.getElementById(newId)
+       if(qqqq==null){ 
+
+        var zz = newId;
+        var a = newId.indexOf("*");
+            a = newId.substring(0, a);
+        var table =  document.getElementById(a);
+
+        var recursiveTable = '';
+        recursiveTable +=   "<table id="+zz+" border = '1'>" + '<tr>';
+
+        for(let key in arrayOfData){
+            for(let keyAgain in arrayOfData[key]){
+                     recursiveTable +=  '<th>' + supportedKey(keyAgain) + '</th>';
             }
         }
-        xx= xx + '</tr><tr>';
-       for(let key in data1){
-           for(let keyAgain in data1[key]){
-               if(Array.isArray(data1[key][keyAgain])){
-                 var yy = JSON.stringify(data1[key][keyAgain]);
-                 id1 = id1 + 's';
-                 xx = xx + "<td><input type='button' value='Show Data' onclick=\'handleanotherArray("+yy+", \""+id1+"\")\'></td>"
+
+        recursiveTable +=  '</tr><tr>';
+
+        for(let key in arrayOfData){
+           for(let keyAgain in arrayOfData[key]){
+
+               if(Array.isArray(arrayOfData[key][keyAgain])){
+                 var stringifyData = JSON.stringify(arrayOfData[key][keyAgain]);
+                 newId = newId + 's';
+                 recursiveTable  +=  "<td><input type='button' value='Show Data' onclick=\'handlingRecursiveTable("+stringifyData+", \""+newId+"\")\'></td>"
                }else{
-                    xx= xx + '<td>' + data1[key][keyAgain] + '</td>';
+                    recursiveTable +=  '<td>' + arrayOfData[key][keyAgain] + '</td>';
                }
            }
        }
-        xx = xx + '</tr>'  + "</table border = '1'>"
-        table.innerHTML = table.innerHTML + xx;
+
+        recursiveTable  +=  '</tr>'  + "</table border = '1'>"
+        table.innerHTML = table.innerHTML + recursiveTable;
        }
+
        else{
            console.log('pahle')
        }
@@ -58,13 +59,13 @@ supportedKey = (key) =>{
 
 
 
-    callfunction = (user) =>{
+    renderData = (user) =>{
         var data = document.getElementById('data')
         for(let key in user){
              if (Array.isArray(user[key])){
                 data.innerHTML = data.innerHTML + '<p>'+supportedKey(key) +'-------</p>'
                 data.innerHTML = data.innerHTML + '<div id= '+str+'s'+'></div>'
-                handleanotherArray(user[key], str + 's' + '*')
+                handlingRecursiveTable(user[key], str + 's' + '*')
                 str= str + 's';
              }else{
                  data.innerHTML = data.innerHTML + '<p>'+supportedKey(key) +'-------' + user[key] + '</p>'
@@ -102,4 +103,4 @@ supportedKey = (key) =>{
         "nodeFive" : "shubham Jindalaaaaaaaaaaaaaaaaaaaaaaaaaa"
     }
     
-    callfunction(user);
+    renderData(user);
